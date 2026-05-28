@@ -9,6 +9,7 @@ export default defineUserConfig({
   description: "记录技术实践、产品思考和独立开发历程",
   base: "/",
   appearance: true,
+  cleanUrls: true,
 
   head: [
     ["link", { rel: "stylesheet", href: "//at.alicdn.com/t/font_3180624_7cy10l7jqqh.css" }],
