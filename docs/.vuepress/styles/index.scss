@@ -1,4 +1,4 @@
-/* 全局样式覆盖 - 匹配 canghe.ai 风格 */
+/* ===== Landing Page 样式 - 参考 canghe.ai ===== */
 
 /* 导航栏 */
 .vp-navbar {
@@ -17,7 +17,7 @@
   color: rgb(9, 109, 217) !important;
 }
 
-/* 页面标题隐藏（首页不需要显示"首页"标题） */
+/* 页面标题隐藏 */
 .vp-page-title {
   display: none !important;
 }
@@ -40,28 +40,32 @@
 
 /* ===== Hero 区域样式 ===== */
 .vp-hero-info-wrapper {
-  padding: 86px 0 74px !important;
-  background: radial-gradient(circle at 12% 12%, rgba(20, 124, 117, 0.18), rgba(0, 0, 0, 0) 34%),
-              radial-gradient(circle at 86% 18%, rgba(9, 109, 217, 0.18), rgba(0, 0, 0, 0) 32%),
-              linear-gradient(135deg, rgb(248, 251, 255), rgb(238, 245, 251) 48%, rgb(247, 239, 229)) !important;
-  border-radius: 12px;
-  margin: 2rem;
-  min-height: 400px;
+  padding: 100px 0 60px !important;
+  background: linear-gradient(135deg, rgb(248, 251, 255), rgb(238, 245, 251) 48%, rgb(247, 239, 229)) !important;
+  border-radius: 0;
+  margin: 0;
+  min-height: auto;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .vp-hero-info {
-  text-align: center !important;
+  text-align: left !important;
+  max-width: 800px;
+  padding: 0 2rem;
 }
 
 .vp-hero-title {
-  font-size: 2.8rem !important;
-  font-weight: 600 !important;
+  font-size: 3rem !important;
+  font-weight: 700 !important;
   color: rgb(17, 24, 39) !important;
-  line-height: 1.25 !important;
-  margin-bottom: 1rem !important;
+  line-height: 1.2 !important;
+  margin-bottom: 0.75rem !important;
+  background: linear-gradient(90deg, #059669, #2563eb);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .vp-hero-infos p {
@@ -69,18 +73,26 @@
   color: rgb(107, 114, 128) !important;
 }
 
+#vp-hero-description {
+  font-size: 1rem !important;
+  color: rgb(107, 114, 128) !important;
+  margin-bottom: 1rem !important;
+  letter-spacing: 0.05em;
+}
+
 .vp-hero-actions {
-  margin-top: 2rem !important;
+  margin-top: 1.5rem !important;
   display: flex;
   gap: 1rem;
-  justify-content: center;
+  justify-content: flex-start;
   flex-wrap: wrap;
 }
 
 .vp-hero-action {
   border-radius: 8px !important;
-  padding: 0.75rem 1.5rem !important;
+  padding: 0.6rem 1.25rem !important;
   font-weight: 500 !important;
+  font-size: 0.95rem !important;
   transition: all 0.2s ease !important;
 }
 
@@ -92,84 +104,169 @@
 
 .vp-hero-action.primary:hover {
   background: rgb(7, 89, 178) !important;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(9, 109, 217, 0.3);
 }
 
 .vp-hero-action.secondary {
-  background: rgba(9, 109, 217, 0.1) !important;
-  color: rgb(9, 109, 217) !important;
-  border: 1px solid rgba(9, 109, 217, 0.2) !important;
+  background: transparent !important;
+  color: rgb(75, 85, 99) !important;
+  border: 1px solid rgb(229, 231, 235) !important;
 }
 
 .vp-hero-action.secondary:hover {
-  background: rgba(9, 109, 217, 0.2) !important;
-  transform: translateY(-1px);
+  background: rgb(249, 250, 251) !important;
+  border-color: rgb(209, 213, 219) !important;
 }
 
-/* ===== Feature 产品卡片 - 深色玻璃拟态 ===== */
-.vp-feature-wrapper {
-  margin: 2rem !important;
+/* ===== Landing Hero 描述和标签 ===== */
+.landing-desc {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  font-size: 1.05rem;
+  color: rgb(75, 85, 99);
+  line-height: 1.7;
+  margin-top: -2rem;
+  margin-bottom: 1.5rem;
 }
 
-.vp-features {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1.5rem;
+.landing-tags {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-bottom: 2rem;
 }
 
-.vp-feature-item {
-  background: rgba(9, 16, 30, 0.62) !important;
-  border: 1px solid rgba(255, 255, 255, 0.18) !important;
-  border-radius: 8px !important;
-  padding: 1.5rem !important;
-  color: white !important;
-  text-decoration: none;
-  transition: all 0.2s ease;
-}
-
-.vp-feature-item:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-  border-color: rgba(255, 255, 255, 0.3) !important;
-}
-
-.vp-feature-item .vp-feature-title {
-  font-size: 1.2rem !important;
-  font-weight: 600 !important;
-  margin-bottom: 0.5rem !important;
-  color: white !important;
-}
-
-.vp-feature-item .vp-feature-title::before {
-  content: attr(data-number);
-  display: block;
+.landing-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.35rem 0.85rem;
+  border-radius: 6px;
+  background: rgb(249, 250, 251);
+  border: 1px solid rgb(229, 231, 235);
   font-size: 0.85rem;
-  color: rgba(255, 255, 255, 0.6);
-  margin-bottom: 0.5rem;
-  font-weight: 400;
+  color: rgb(75, 85, 99);
 }
 
-.vp-feature-item .vp-feature-details {
-  font-size: 0.9rem !important;
-  color: rgba(255, 255, 255, 0.8) !important;
-  line-height: 1.5 !important;
+.landing-tag strong {
+  color: rgb(17, 24, 39);
+  font-weight: 600;
 }
 
-/* ===== 内容区域样式 ===== */
+.landing-meta {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+  margin-bottom: 3rem;
+}
+
+.meta-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.meta-label {
+  font-size: 0.75rem;
+  color: rgb(156, 163, 175);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.meta-value {
+  font-size: 0.95rem;
+  color: rgb(17, 24, 39);
+  font-weight: 500;
+}
+
+/* ===== Section 通用样式 ===== */
 .theme-hope-content h2 {
-  font-size: 1.8rem !important;
-  font-weight: 600 !important;
+  font-size: 1.5rem !important;
+  font-weight: 700 !important;
   color: rgb(17, 24, 39) !important;
-  margin-top: 3rem !important;
+  margin-top: 4rem !important;
   margin-bottom: 1rem !important;
+  line-height: 1.4 !important;
 }
 
 .theme-hope-content h2:first-of-type {
-  margin-top: 1rem !important;
+  margin-top: 2rem !important;
 }
 
-/* Blog 区域标签样式 */
+/* Section 英文小标签 */
+.theme-hope-content h2::before {
+  content: attr(data-section);
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: rgb(156, 163, 175);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 0.5rem;
+}
+
+/* ===== Products 区域 ===== */
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
+.product-card {
+  padding: 1.5rem;
+  border-radius: 12px;
+  background: rgb(255, 255, 255);
+  border: 1px solid rgb(229, 231, 235);
+  transition: all 0.2s ease;
+}
+
+.product-card:hover {
+  border-color: rgb(209, 213, 219);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.product-num {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: rgb(156, 163, 175);
+  margin-bottom: 0.75rem;
+}
+
+.product-title {
+  font-size: 1.1rem !important;
+  font-weight: 600 !important;
+  color: rgb(17, 24, 39) !important;
+  margin-bottom: 0.5rem !important;
+  margin-top: 0 !important;
+}
+
+.product-desc {
+  font-size: 0.9rem;
+  color: rgb(107, 114, 128);
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+.product-link {
+  font-size: 0.9rem;
+  color: rgb(9, 109, 217) !important;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.product-link:hover {
+  text-decoration: underline;
+}
+
+/* ===== Blog 区域链接 ===== */
 .theme-hope-content p a {
   color: rgb(9, 109, 217) !important;
   text-decoration: none;
@@ -187,6 +284,7 @@
   gap: 1rem;
   border: none !important;
   width: 100%;
+  margin-top: 1.5rem;
 }
 
 .theme-hope-content table thead {
@@ -200,7 +298,7 @@
 .theme-hope-content table tr {
   display: flex;
   flex-direction: column;
-  padding: 1.5rem;
+  padding: 1.25rem;
   border-radius: 8px;
   background: rgb(249, 250, 251);
   border: 1px solid rgb(229, 231, 235);
@@ -210,7 +308,6 @@
 .theme-hope-content table tr:hover {
   background: rgb(243, 244, 246);
   border-color: rgb(209, 213, 219);
-  transform: translateY(-1px);
 }
 
 .theme-hope-content table td {
@@ -228,6 +325,56 @@
 .theme-hope-content table td:last-child {
   color: rgb(107, 114, 128);
   font-size: 0.9rem;
+}
+
+/* ===== Projects 区域 ===== */
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
+.project-card {
+  padding: 1.5rem;
+  border-radius: 8px;
+  background: rgb(249, 250, 251);
+  border: 1px solid rgb(229, 231, 235);
+}
+
+.project-title {
+  font-size: 1rem !important;
+  font-weight: 600 !important;
+  color: rgb(17, 24, 39) !important;
+  margin-bottom: 0.25rem !important;
+  margin-top: 0 !important;
+}
+
+.project-subtitle {
+  font-size: 0.85rem;
+  color: rgb(156, 163, 175);
+  margin-bottom: 0.5rem;
+}
+
+.project-desc {
+  font-size: 0.9rem;
+  color: rgb(107, 114, 128);
+  line-height: 1.6;
+}
+
+/* ===== Membership 链接 ===== */
+.membership-link {
+  display: inline-block;
+  margin-top: 1rem;
+  font-size: 0.95rem;
+  color: rgb(9, 109, 217) !important;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.membership-link:hover {
+  text-decoration: underline;
 }
 
 /* ===== 分隔线样式 ===== */
@@ -260,20 +407,22 @@
   }
   
   .vp-hero-info-wrapper {
-    margin: 1rem;
-    padding: 60px 0 50px !important;
+    padding: 60px 0 40px !important;
   }
   
-  .vp-features {
+  .landing-desc,
+  .landing-tags,
+  .landing-meta {
+    padding: 0 1rem;
+  }
+  
+  .products-grid,
+  .projects-grid {
     grid-template-columns: 1fr !important;
   }
   
   .theme-hope-content table {
     grid-template-columns: 1fr !important;
-  }
-  
-  .vp-feature-wrapper {
-    margin: 1rem !important;
   }
 }
 
