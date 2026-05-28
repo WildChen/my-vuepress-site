@@ -12,7 +12,7 @@ function getCorsHeaders(request) {
   const allowed = isLocalhost || ALLOWED_ORIGINS.includes(origin);
   return {
     "Access-Control-Allow-Origin": allowed ? origin : "",
-    "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+    "Access-Control-Allow-Methods": "POST, OPTIONS",
     "Access-Control-Allow-Headers": "Content-Type",
     "Access-Control-Allow-Credentials": "true",
     Vary: "Origin",
@@ -39,62 +39,28 @@ function sanitizeContent(content) {
 }
 
 async function checkRateLimit(env, ip) {
-  const key = `rate:comment:${ip}`;
+  const key = `rate:reply:${ip}`;
   const current = await env.KV_USERS.get(key);
   const count = current ? parseInt(current, 10) : 0;
-  if (count >= 3) {
+  if (count >= 5) {
     return { allowed: false };
   }
   return { allowed: true, count };
 }
 
 async function incrementRateLimit(env, ip) {
-  const key = `rate:comment:${ip}`;
+  const key = `rate:reply:${ip}`;
   const current = await env.KV_USERS.get(key);
   const count = current ? parseInt(current, 10) + 1 : 1;
   await env.KV_USERS.put(key, String(count), { expirationTtl: 60 });
   return count;
 }
 
-// GET - 获取评论列表（无需登录）
-export async function onRequestGet(context) {
-  const { request, env } = context;
-  const corsHeaders = getCorsHeaders(request);
-
-  try {
-    const url = new URL(request.url);
-    const page = url.searchParams.get("page");
-
-    if (!page) {
-      return new Response(
-        JSON.stringify({ error: "Missing page parameter" }),
-        { status: 400, headers: { "Content-Type": "application/json", ...corsHeaders } }
-      );
-    }
-
-    const key = `comments:${page}`;
-    const existing = await env.KV_USERS.get(key);
-    const comments = existing ? JSON.parse(existing) : [];
-
-    return new Response(
-      JSON.stringify({ comments }),
-      { status: 200, headers: { "Content-Type": "application/json", ...corsHeaders } }
-    );
-  } catch (error) {
-    return new Response(
-      JSON.stringify({ error: "Server error" }),
-      { status: 500, headers: { "Content-Type": "application/json", ...corsHeaders } }
-    );
-  }
-}
-
-// POST - 提交评论（需要登录）
 export async function onRequestPost(context) {
   const { request, env } = context;
   const corsHeaders = getCorsHeaders(request);
 
   try {
-    // 1. 验证登录状态
     const token = getCookieValue(request, COOKIE_NAME);
     if (!token) {
       return new Response(
@@ -111,11 +77,10 @@ export async function onRequestPost(context) {
       );
     }
 
-    // 2. 获取请求参数
-    const { page, content } = await request.json();
-    if (!page || !content || typeof content !== "string") {
+    const { page, commentId, content } = await request.json();
+    if (!page || !commentId || !content || typeof content !== "string") {
       return new Response(
-        JSON.stringify({ error: "Missing page or content" }),
+        JSON.stringify({ error: "Missing page, commentId or content" }),
         { status: 400, headers: { "Content-Type": "application/json", ...corsHeaders } }
       );
     }
@@ -127,19 +92,19 @@ export async function onRequestPost(context) {
         { status: 400, headers: { "Content-Type": "application/json", ...corsHeaders } }
       );
     }
-    if (trimmed.length > 2000) {
+    if (trimmed.length > 1000) {
       return new Response(
-        JSON.stringify({ error: "Content too long (max 2000 chars)" }),
+        JSON.stringify({ error: "Content too long (max 1000 chars)" }),
         { status: 400, headers: { "Content-Type": "application/json", ...corsHeaders } }
       );
     }
 
-    // 3. 频率限制
+    // 频率限制
     const ip = getClientIP(request);
     const rateCheck = await checkRateLimit(env, ip);
     if (!rateCheck.allowed) {
       return new Response(
-        JSON.stringify({ error: "Too many comments, please wait a minute" }),
+        JSON.stringify({ error: "Too many replies, please wait a minute" }),
         {
           status: 429,
           headers: {
@@ -151,31 +116,46 @@ export async function onRequestPost(context) {
       );
     }
 
-    // 4. 存储评论
-    const comment = {
+    const key = `comments:${page}`;
+    const existing = await env.KV_USERS.get(key);
+    if (!existing) {
+      return new Response(
+        JSON.stringify({ error: "Comment not found" }),
+        { status: 404, headers: { "Content-Type": "application/json", ...corsHeaders } }
+      );
+    }
+
+    const list = JSON.parse(existing);
+    const comment = list.find((c) => c.id === commentId);
+    if (!comment) {
+      return new Response(
+        JSON.stringify({ error: "Comment not found" }),
+        { status: 404, headers: { "Content-Type": "application/json", ...corsHeaders } }
+      );
+    }
+
+    // 兼容旧数据
+    if (!comment.replies) comment.replies = [];
+
+    const reply = {
       id: crypto.randomUUID(),
       username: sanitizeContent(username),
       content: sanitizeContent(trimmed),
       createdAt: new Date().toISOString(),
-      likes: [],
-      replies: [],
     };
 
-    const key = `comments:${page}`;
-    const existing = await env.KV_USERS.get(key);
-    const list = existing ? JSON.parse(existing) : [];
-    list.push(comment);
+    comment.replies.push(reply);
 
-    // 最多保留 100 条
-    if (list.length > 100) {
-      list.shift();
+    // 单条评论最多 20 条回复
+    if (comment.replies.length > 20) {
+      comment.replies.shift();
     }
 
     await env.KV_USERS.put(key, JSON.stringify(list));
     await incrementRateLimit(env, ip);
 
     return new Response(
-      JSON.stringify({ success: true, comment }),
+      JSON.stringify({ success: true, reply }),
       { status: 200, headers: { "Content-Type": "application/json", ...corsHeaders } }
     );
   } catch (error) {

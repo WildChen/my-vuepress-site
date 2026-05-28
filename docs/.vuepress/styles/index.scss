@@ -603,3 +603,74 @@ html {
 .comment-login-tip a:hover {
   text-decoration: underline;
 }
+
+/* ===== 点赞 & 回复 ===== */
+.comment-actions-bar {
+  display: flex;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+.comment-action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.35rem 0.75rem;
+  background: transparent;
+  border: 1px solid rgb(229, 231, 235);
+  border-radius: 6px;
+  font-size: 0.85rem;
+  color: rgb(107, 114, 128);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.comment-action-btn:hover {
+  background: rgb(249, 250, 251);
+  border-color: rgb(209, 213, 219);
+}
+
+.comment-action-btn.liked {
+  color: rgb(220, 38, 38);
+  border-color: rgb(252, 165, 165);
+  background: rgb(254, 242, 242);
+}
+
+.comment-action-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* 回复区域 */
+.comment-replies {
+  margin-top: 0.75rem;
+  padding-left: 1.5rem;
+  border-left: 2px solid rgb(229, 231, 235);
+}
+
+.comment-reply-item {
+  padding: 0.75rem 0;
+  border-bottom: 1px solid rgb(243, 244, 246);
+}
+
+.comment-reply-item:last-child {
+  border-bottom: none;
+}
+
+/* 回复输入框 */
+.comment-reply-form {
+  margin-top: 0.75rem;
+  padding: 0.75rem;
+  background: rgb(249, 250, 251);
+  border-radius: 8px;
+}
+
+.comment-reply-textarea {
+  min-height: 60px !important;
+  font-size: 0.9rem;
+}
+
+.comment-reply-submit {
+  padding: 0.5rem 1.25rem !important;
+  font-size: 0.85rem !important;
+}
