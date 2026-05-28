@@ -28,7 +28,7 @@
 ## 联系方式
 
 - **GitHub**: [WildChen](https://github.com/WildChen)
-- **Email**: 你的邮箱@example.com
+- **Email**: abcw007@126.com
 
 ## 订阅更新
 
