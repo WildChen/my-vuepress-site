@@ -24,6 +24,8 @@ features:
     link: /products/
 ---
 
+<p align="right" style="color: rgb(107, 114, 128); font-size: 0.9rem; margin-top: -0.5rem;">— by aron</p>
+
 ## Blog
 
 内容分两种：深度长文，和高频短帖。
