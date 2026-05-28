@@ -38,6 +38,32 @@ function sanitizeContent(content) {
     .replace(/'/g, "&#039;");
 }
 
+function containsUnsafeImageUrls(content) {
+  const matches = content.match(/!\[([^\]]*)\]\(([^)]+)\)/g) || [];
+  for (const match of matches) {
+    const urlMatch = match.match(/!\[([^\]]*)\]\(([^)]+)\)/);
+    if (urlMatch) {
+      const url = urlMatch[2];
+      const allowed =
+        url.startsWith("data:image/") || url.startsWith("https://");
+      if (!allowed) return true;
+    }
+  }
+  return false;
+}
+
+function checkBase64ImageSize(content, maxKB) {
+  const matches = content.match(/data:image\/[^;]+;base64,([A-Za-z0-9+/=]+)/g) || [];
+  let totalBytes = 0;
+  for (const match of matches) {
+    const parts = match.split(",");
+    if (parts.length === 2) {
+      totalBytes += parts[1].length * 0.75;
+    }
+  }
+  return totalBytes <= maxKB * 1024;
+}
+
 async function checkRateLimit(env, ip) {
   const key = `rate:reply:${ip}`;
   const current = await env.KV_USERS.get(key);
@@ -92,14 +118,26 @@ export async function onRequestPost(context) {
         { status: 400, headers: { "Content-Type": "application/json", ...corsHeaders } }
       );
     }
-    if (trimmed.length > 1000) {
+    if (trimmed.length > 50000) {
       return new Response(
-        JSON.stringify({ error: "Content too long (max 1000 chars)" }),
+        JSON.stringify({ error: "Content too long" }),
         { status: 400, headers: { "Content-Type": "application/json", ...corsHeaders } }
       );
     }
 
-    // 频率限制
+    if (containsUnsafeImageUrls(trimmed)) {
+      return new Response(
+        JSON.stringify({ error: "Unsafe image URL detected" }),
+        { status: 400, headers: { "Content-Type": "application/json", ...corsHeaders } }
+      );
+    }
+    if (!checkBase64ImageSize(trimmed, 100)) {
+      return new Response(
+        JSON.stringify({ error: "Images too large (max 100KB total)" }),
+        { status: 400, headers: { "Content-Type": "application/json", ...corsHeaders } }
+      );
+    }
+
     const ip = getClientIP(request);
     const rateCheck = await checkRateLimit(env, ip);
     if (!rateCheck.allowed) {
@@ -134,7 +172,6 @@ export async function onRequestPost(context) {
       );
     }
 
-    // 兼容旧数据
     if (!comment.replies) comment.replies = [];
 
     const reply = {
@@ -146,7 +183,6 @@ export async function onRequestPost(context) {
 
     comment.replies.push(reply);
 
-    // 单条评论最多 20 条回复
     if (comment.replies.length > 20) {
       comment.replies.shift();
     }
