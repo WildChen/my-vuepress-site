@@ -21,7 +21,7 @@ export default defineUserConfig({
 
     author: {
       name: "aronchen",
-      url: "/about/",
+      url: "/about.html",
     },
 
     logo: "/logo.png",
@@ -59,5 +59,6 @@ export default defineUserConfig({
 
     docsDir: "docs",
     iconAssets: "fontawesome",
+    toc: false,
   }),
 });
