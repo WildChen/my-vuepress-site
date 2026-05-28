@@ -12,7 +12,7 @@ export default defineUserConfig({
 
   head: [
     ["link", { rel: "stylesheet", href: "//at.alicdn.com/t/font_3180624_7cy10l7jqqh.css" }],
-    ["link", { rel: "icon", href: "/favicon.jpg" }],
+    ["link", { rel: "icon", href: "/spongebob.jpg" }],
   ],
 
   theme: hopeTheme({
