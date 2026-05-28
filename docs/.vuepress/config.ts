@@ -7,7 +7,7 @@ export default defineUserConfig({
   lang: "zh-CN",
   title: "苍何之旅",
   description: "记录技术实践、产品思考和独立开发历程",
-  base: "/aron-site/",
+  base: "/",
 
   head: [
     ["style", {}, `
