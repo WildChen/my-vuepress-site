@@ -21,7 +21,6 @@ export default defineUserConfig({
       url: "/about/",
     },
 
-    logo: "",
     repo: "https://github.com/WildChen/wildchen.github.io",
     repoDisplay: true,
 

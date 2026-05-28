@@ -199,18 +199,6 @@
   margin-top: 2rem !important;
 }
 
-/* Section 英文小标签 */
-.theme-hope-content h2::before {
-  content: attr(data-section);
-  display: block;
-  font-size: 0.75rem;
-  font-weight: 500;
-  color: rgb(156, 163, 175);
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  margin-bottom: 0.5rem;
-}
-
 /* ===== Products 区域 ===== */
 .products-grid {
   display: grid;
