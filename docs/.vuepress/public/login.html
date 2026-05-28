@@ -170,16 +170,15 @@
       } catch (e) {}
     }
 
-    // 尝试访问 setup 接口判断是否需要首次设置
+    // 查询是否需要首次设置
     async function checkNeedSetup() {
       try {
-        const res = await fetch('/api/setup', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({}) });
+        const res = await fetch('/api/setup');
         const data = await res.json();
-        if (data.error === "Setup already completed") {
+        if (!data.needsSetup) {
           isSetup = false;
           setupNotice.style.display = 'none';
         } else {
-          // 返回了其他错误（如缺少参数），说明 setup 可用
           isSetup = true;
           setupNotice.style.display = 'block';
           submitBtn.textContent = '创建账号并登录';
