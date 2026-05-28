@@ -31,3 +31,5 @@ features:
 - 🔧 [开源更新](/oss/)
 
 > *理解世界，然后用 AI 改造它。*
+>
+> <p align="right" style="color: rgb(107, 114, 128); font-size: 0.9rem;">— by aron</p>
