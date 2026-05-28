@@ -1,7 +1,9 @@
 ---
 home: true
 heroText: 理解世界，然后用 AI 改造它
-tagline: Developer · Builder · Writer
+tagline: |
+  Developer · Builder · Writer
+  <span style="display:block;text-align:right;font-size:0.85rem;color:rgb(107,114,128);margin-top:0.3rem;">— by aron</span>
 actions:
   - text: 加入会员
     link: /membership/
@@ -23,8 +25,6 @@ features:
     details: 从想法、验证、上线到迭代，持续整理小产品的方法论。
     link: /products/
 ---
-
-<p align="right" style="color: rgb(107, 114, 128); font-size: 0.9rem; margin-top: -0.5rem;">— by aron</p>
 
 ## Blog
 
