@@ -7,7 +7,7 @@ export default defineUserConfig({
   lang: "zh-CN",
   title: "苍何之旅",
   description: "记录技术实践、产品思考和独立开发历程",
-  base: "/",
+  base: "/aron-site/",
 
   head: [
     ["style", {}, `
@@ -48,7 +48,7 @@ export default defineUserConfig({
   ],
 
   theme: hopeTheme({
-    hostname: "https://wildchen.github.io",
+    hostname: "https://wildchen.github.io/aron-site",
 
     author: {
       name: "aronchen",
