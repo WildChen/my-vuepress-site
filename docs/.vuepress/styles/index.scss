@@ -449,3 +449,157 @@ html {
   background: rgba(9, 109, 217, 0.2);
   color: rgb(17, 24, 39);
 }
+
+/* ===== 评论区域 ===== */
+.comments-container {
+  margin-top: 3rem;
+  padding: 0;
+}
+
+.comments-divider {
+  border: none;
+  border-top: 1px solid rgb(229, 231, 235);
+  margin: 0 0 2rem 0;
+}
+
+.comments-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.comments-title {
+  font-size: 1.25rem !important;
+  font-weight: 600 !important;
+  color: rgb(17, 24, 39) !important;
+  margin: 0 !important;
+}
+
+.comments-count {
+  font-size: 0.875rem;
+  color: rgb(156, 163, 175);
+}
+
+.comments-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  margin-bottom: 1.5rem;
+}
+
+.comments-empty {
+  color: rgb(156, 163, 175);
+  font-size: 0.9rem;
+  padding: 1rem 0;
+}
+
+.comment-item {
+  padding: 1rem 0;
+  border-bottom: 1px solid rgb(243, 244, 246);
+}
+
+.comment-item:last-child {
+  border-bottom: none;
+}
+
+.comment-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.comment-username {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: rgb(17, 24, 39);
+}
+
+.comment-time {
+  font-size: 0.8rem;
+  color: rgb(156, 163, 175);
+}
+
+.comment-content {
+  font-size: 0.95rem;
+  color: rgb(75, 85, 99);
+  line-height: 1.6;
+  word-break: break-word;
+}
+
+.comment-input-area {
+  margin-top: 1rem;
+}
+
+.comment-textarea {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid rgb(229, 231, 235);
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-family: inherit;
+  resize: vertical;
+  min-height: 80px;
+  transition: border-color 0.2s;
+}
+
+.comment-textarea:focus {
+  outline: none;
+  border-color: rgb(9, 109, 217);
+}
+
+.comment-actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 0.75rem;
+}
+
+.comment-submit-btn {
+  padding: 0.6rem 1.5rem;
+  background: rgb(9, 109, 217);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.comment-submit-btn:hover:not(:disabled) {
+  background: rgb(7, 89, 178);
+}
+
+.comment-submit-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.comment-error {
+  color: rgb(185, 28, 28);
+  font-size: 0.85rem;
+  display: none;
+}
+
+.comment-login-tip {
+  padding: 1rem;
+  background: rgb(249, 250, 251);
+  border: 1px solid rgb(229, 231, 235);
+  border-radius: 8px;
+  text-align: center;
+  font-size: 0.9rem;
+  color: rgb(107, 114, 128);
+}
+
+.comment-login-tip a {
+  color: rgb(9, 109, 217) !important;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.comment-login-tip a:hover {
+  text-decoration: underline;
+}

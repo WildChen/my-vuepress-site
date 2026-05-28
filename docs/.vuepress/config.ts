@@ -15,6 +15,7 @@ export default defineUserConfig({
     ["link", { rel: "stylesheet", href: "//at.alicdn.com/t/font_3180624_7cy10l7jqqh.css" }],
     ["link", { rel: "icon", href: "/logo.png" }],
     ["script", { src: "/auth.js", defer: true }],
+    ["script", { src: "/comments.js", defer: true }],
   ],
 
   theme: hopeTheme({
