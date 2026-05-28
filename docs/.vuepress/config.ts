@@ -9,7 +9,7 @@ export default defineUserConfig({
   description: "记录技术实践、产品思考和独立开发历程",
   base: "/",
   appearance: true,
-  cleanUrls: true,
+
 
   head: [
     ["link", { rel: "stylesheet", href: "//at.alicdn.com/t/font_3180624_7cy10l7jqqh.css" }],
@@ -29,20 +29,20 @@ export default defineUserConfig({
 
     navbar: [
       { text: "首页", link: "/", icon: "home" },
-      { text: "产品", link: "/products/", icon: "star" },
-      { text: "会员", link: "/membership/", icon: "crown" },
+      { text: "产品", link: "/products.html", icon: "star" },
+      { text: "会员", link: "/membership.html", icon: "crown" },
       {
         text: "Blog",
         icon: "blog",
         children: [
-          { text: "全部", link: "/article/", icon: "list" },
-          { text: "长文（公众号）", link: "/blog/longform/", icon: "newspaper" },
-          { text: "短帖（X）", link: "/blog/x/", icon: "x-twitter" },
+          { text: "全部", link: "/article.html", icon: "list" },
+          { text: "长文（公众号）", link: "/blog/longform.html", icon: "newspaper" },
+          { text: "短帖（X）", link: "/blog/x.html", icon: "x-twitter" },
         ],
       },
-      { text: "专栏", link: "/series/", icon: "layer-group" },
-      { text: "开源项目", link: "/oss/", icon: "code-branch" },
-      { text: "关于", link: "/about/", icon: "circle-user" },
+      { text: "专栏", link: "/series.html", icon: "layer-group" },
+      { text: "开源项目", link: "/oss.html", icon: "code-branch" },
+      { text: "关于", link: "/about.html", icon: "circle-user" },
     ],
 
     sidebar: false,
