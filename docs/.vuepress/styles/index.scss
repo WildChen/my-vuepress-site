@@ -54,6 +54,31 @@
   text-align: left !important;
   max-width: 800px;
   padding: 0 2rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 3rem;
+}
+
+.vp-hero-image {
+  max-width: 220px !important;
+  max-height: 220px !important;
+  border-radius: 12px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+  flex-shrink: 0;
+}
+
+@media (max-width: 768px) {
+  .vp-hero-info {
+    flex-direction: column;
+    gap: 1.5rem;
+    text-align: center !important;
+  }
+  
+  .vp-hero-image {
+    max-width: 160px !important;
+    max-height: 160px !important;
+  }
 }
 
 .vp-hero-title {
