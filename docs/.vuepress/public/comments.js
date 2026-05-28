@@ -199,7 +199,7 @@
 
       const likeBtn = document.createElement("button");
       likeBtn.className = "comment-action-btn" + (isLiked ? " liked" : "");
-      likeBtn.innerHTML = `<span class="font-icon icon fa-fw fa-sm ${isLiked ? 'fas' : 'far'} fa-heart"></span> ${likes.length}`;
+      likeBtn.innerHTML = `<span class="comment-like-icon ${isLiked ? 'liked' : ''}"><span class="font-icon icon fa-fw fa-sm ${isLiked ? 'fas' : 'far'} fa-heart"></span></span><span class="comment-like-count">${likes.length}</span>`;
       likeBtn.addEventListener("click", async () => {
         if (!CURRENT_USER) {
           window.location.href = "/login.html";
@@ -224,7 +224,7 @@
 
       const replyBtn = document.createElement("button");
       replyBtn.className = "comment-action-btn";
-      replyBtn.innerHTML = `<span class="font-icon icon fa-fw fa-sm far fa-comment-dots"></span> 回复`;
+      replyBtn.innerHTML = `<span class="comment-like-icon"><span class="font-icon icon fa-fw fa-sm far fa-comment-dots"></span></span><span class="comment-like-count">回复</span>`;
       replyBtn.addEventListener("click", () => {
         if (!CURRENT_USER) {
           window.location.href = "/login.html";
