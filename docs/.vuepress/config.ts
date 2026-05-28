@@ -14,6 +14,7 @@ export default defineUserConfig({
   head: [
     ["link", { rel: "stylesheet", href: "//at.alicdn.com/t/font_3180624_7cy10l7jqqh.css" }],
     ["link", { rel: "icon", href: "/logo.png" }],
+    ["script", { src: "/auth.js", defer: true }],
   ],
 
   theme: hopeTheme({
@@ -33,6 +34,7 @@ export default defineUserConfig({
       { text: "首页", link: "/", icon: "home" },
       { text: "产品", link: "/products.html", icon: "star" },
       { text: "会员", link: "/membership.html", icon: "crown" },
+      { text: "登录", link: "/login.html", icon: "right-to-bracket" },
       {
         text: "Blog",
         icon: "blog",

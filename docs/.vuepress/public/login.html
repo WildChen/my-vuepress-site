@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>登录 | Language shapes our world</title>
+  <link rel="icon" href="/logo.png">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: linear-gradient(135deg, rgb(248, 251, 255), rgb(238, 245, 251) 48%, rgb(247, 239, 229));
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .login-card {
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 8px 40px rgba(0, 0, 0, 0.08);
+      padding: 3rem;
+      width: 100%;
+      max-width: 400px;
+      margin: 1rem;
+    }
+    .logo {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    .logo img {
+      width: 64px;
+      height: 64px;
+      border-radius: 12px;
+    }
+    .logo h1 {
+      font-size: 1.25rem;
+      color: rgb(17, 24, 39);
+      margin-top: 0.75rem;
+      font-weight: 600;
+    }
+    .form-group {
+      margin-bottom: 1.25rem;
+    }
+    .form-group label {
+      display: block;
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: rgb(75, 85, 99);
+      margin-bottom: 0.5rem;
+    }
+    .form-group input {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border: 1px solid rgb(229, 231, 235);
+      border-radius: 8px;
+      font-size: 0.95rem;
+      transition: border-color 0.2s;
+    }
+    .form-group input:focus {
+      outline: none;
+      border-color: rgb(9, 109, 217);
+    }
+    .btn {
+      width: 100%;
+      padding: 0.875rem;
+      border: none;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-primary {
+      background: rgb(9, 109, 217);
+      color: white;
+    }
+    .btn-primary:hover {
+      background: rgb(7, 89, 178);
+    }
+    .back-link {
+      display: block;
+      text-align: center;
+      margin-top: 1.5rem;
+      color: rgb(9, 109, 217);
+      text-decoration: none;
+      font-size: 0.9rem;
+    }
+    .back-link:hover {
+      text-decoration: underline;
+    }
+    .error {
+      background: rgb(254, 242, 242);
+      border: 1px solid rgb(252, 165, 165);
+      color: rgb(185, 28, 28);
+      padding: 0.75rem 1rem;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+      font-size: 0.875rem;
+      display: none;
+    }
+    .success {
+      background: rgb(240, 253, 244);
+      border: 1px solid rgb(134, 239, 172);
+      color: rgb(21, 128, 61);
+      padding: 0.75rem 1rem;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+      font-size: 0.875rem;
+      display: none;
+    }
+    .setup-notice {
+      background: rgb(255, 251, 235);
+      border: 1px solid rgb(252, 211, 77);
+      color: rgb(161, 98, 7);
+      padding: 1rem;
+      border-radius: 8px;
+      margin-bottom: 1.5rem;
+      font-size: 0.875rem;
+      line-height: 1.6;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-card">
+    <div class="logo">
+      <img src="/logo.png" alt="Logo">
+      <h1>Language shapes our world</h1>
+    </div>
+
+    <div class="setup-notice" id="setupNotice">
+      <strong>首次使用</strong><br>
+      系统尚未创建管理员账号。请在下方设置你的用户名和密码（密码至少 6 位）。
+    </div>
+
+    <div class="error" id="error"></div>
+    <div class="success" id="success"></div>
+
+    <form id="loginForm">
+      <div class="form-group">
+        <label for="username">用户名</label>
+        <input type="text" id="username" name="username" required placeholder="输入用户名">
+      </div>
+      <div class="form-group">
+        <label for="password">密码</label>
+        <input type="password" id="password" name="password" required placeholder="输入密码">
+      </div>
+      <button type="submit" class="btn btn-primary" id="submitBtn">登录</button>
+    </form>
+
+    <a href="/" class="back-link">← 返回首页</a>
+  </div>
+
+  <script>
+    const form = document.getElementById('loginForm');
+    const errorDiv = document.getElementById('error');
+    const successDiv = document.getElementById('success');
+    const setupNotice = document.getElementById('setupNotice');
+    const submitBtn = document.getElementById('submitBtn');
+    let isSetup = false;
+
+    // 检查是否需要首次设置
+    async function checkSetup() {
+      try {
+        const res = await fetch('/api/verify');
+        // 如果能访问 verify，说明 API 正常
+        // setup 状态通过尝试获取用户列表来判断
+        // 这里简化为：如果登录失败且返回 "Invalid credentials"，说明已有用户
+      } catch (e) {}
+    }
+
+    // 尝试访问 setup 接口判断是否需要首次设置
+    async function checkNeedSetup() {
+      try {
+        const res = await fetch('/api/setup', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({}) });
+        const data = await res.json();
+        if (data.error === "Setup already completed") {
+          isSetup = false;
+          setupNotice.style.display = 'none';
+        } else {
+          // 返回了其他错误（如缺少参数），说明 setup 可用
+          isSetup = true;
+          setupNotice.style.display = 'block';
+          submitBtn.textContent = '创建账号并登录';
+        }
+      } catch (e) {
+        setupNotice.style.display = 'none';
+      }
+    }
+
+    checkNeedSetup();
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      errorDiv.style.display = 'none';
+      successDiv.style.display = 'none';
+
+      const username = document.getElementById('username').value.trim();
+      const password = document.getElementById('password').value;
+
+      if (!username || !password) {
+        errorDiv.textContent = '请填写用户名和密码';
+        errorDiv.style.display = 'block';
+        return;
+      }
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = '处理中...';
+
+      try {
+        // 如果是首次设置，先调用 setup
+        if (isSetup) {
+          const setupRes = await fetch('/api/setup', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, password }),
+          });
+          const setupData = await setupRes.json();
+          if (!setupData.success) {
+            errorDiv.textContent = setupData.error || '创建账号失败';
+            errorDiv.style.display = 'block';
+            submitBtn.disabled = false;
+            submitBtn.textContent = isSetup ? '创建账号并登录' : '登录';
+            return;
+          }
+        }
+
+        // 登录
+        const res = await fetch('/api/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username, password }),
+        });
+
+        const data = await res.json();
+
+        if (res.ok) {
+          successDiv.textContent = '登录成功，正在跳转...';
+          successDiv.style.display = 'block';
+          // 同时存到 localStorage 方便前端判断
+          localStorage.setItem('auth_username', data.username);
+          setTimeout(() => {
+            window.location.href = '/';
+          }, 1000);
+        } else {
+          errorDiv.textContent = data.error || '登录失败';
+          errorDiv.style.display = 'block';
+        }
+      } catch (err) {
+        errorDiv.textContent = '网络错误，请重试';
+        errorDiv.style.display = 'block';
+      }
+
+      submitBtn.disabled = false;
+      submitBtn.textContent = isSetup ? '创建账号并登录' : '登录';
+    });
+  </script>
+</body>
+</html>
