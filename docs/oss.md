@@ -10,3 +10,14 @@
 这里展示我最近维护和公开的 GitHub 项目。相比只看介绍，仓库的 star、fork、更新频率和问题反馈更能说明一个项目是否真的被使用。
 
 [访问 GitHub](https://github.com/WildChen) 查看最新项目
+
+## 项目列表
+
+| 项目 | 描述 | 语言 |
+|------|------|------|
+| [项目 1](https://github.com/WildChen) | 项目描述 | Java |
+| [项目 2](https://github.com/WildChen) | 项目描述 | Python |
+
+---
+
+*数据更新中...*

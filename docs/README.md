@@ -1,5 +1,6 @@
 ---
 home: true
+heroImage: /hero.jpg
 heroText: 理解世界，然后用 AI 改造它
 tagline: Developer · Builder · Writer
 actions:

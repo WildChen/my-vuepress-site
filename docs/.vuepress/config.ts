@@ -13,7 +13,7 @@ export default defineUserConfig({
 
   head: [
     ["link", { rel: "stylesheet", href: "//at.alicdn.com/t/font_3180624_7cy10l7jqqh.css" }],
-    ["link", { rel: "icon", href: "/spongebob.jpg" }],
+    ["link", { rel: "icon", href: "/logo.png" }],
   ],
 
   theme: hopeTheme({
@@ -23,6 +23,8 @@ export default defineUserConfig({
       name: "aronchen",
       url: "/about/",
     },
+
+    logo: "/logo.png",
 
     repo: "https://github.com/WildChen/wildchen.github.io",
     repoDisplay: true,
