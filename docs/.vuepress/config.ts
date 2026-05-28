@@ -34,8 +34,8 @@ export default defineUserConfig({
         icon: "blog",
         children: [
           { text: "全部", link: "/article/", icon: "list" },
-          { text: "长文", link: "/blog/longform/", icon: "newspaper" },
-          { text: "短帖", link: "/blog/x/", icon: "x-twitter" },
+          { text: "长文（公众号）", link: "/blog/longform/", icon: "newspaper" },
+          { text: "短帖（X）", link: "/blog/x/", icon: "x-twitter" },
         ],
       },
       { text: "专栏", link: "/series/", icon: "layer-group" },
