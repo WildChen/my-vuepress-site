@@ -5,7 +5,7 @@ import { hopeTheme } from "vuepress-theme-hope";
 export default defineUserConfig({
   bundler: viteBundler(),
   lang: "zh-CN",
-  title: "苍何之旅",
+  title: "Language shapes our world",
   description: "记录技术实践、产品思考和独立开发历程",
   base: "/",
   appearance: true,
