@@ -13,11 +13,12 @@
 
   function createSearchBox() {
     const navbarEnd = document.querySelector(".vp-navbar-end");
-    if (!navbarEnd) return;
+    if (!navbarEnd) return false;
+    if (navbarEnd.querySelector(".custom-search-box")) return true;
 
     const wrapper = document.createElement("div");
     wrapper.className = "custom-search-box";
-    wrapper.style.cssText = "position:relative;display:inline-flex;align-items:center;margin-right:0.75rem;";
+    wrapper.style.cssText = "position:relative;display:inline-flex;align-items:center;margin-right:0.5rem;";
 
     const input = document.createElement("input");
     input.type = "text";
@@ -35,18 +36,6 @@
       transition: all 0.2s;
       color: rgb(75,85,99);
     `;
-
-    input.addEventListener("focus", () => {
-      input.style.width = "180px";
-      input.style.borderColor = "rgb(9,109,217)";
-    });
-    input.addEventListener("blur", () => {
-      input.style.width = "120px";
-      input.style.borderColor = "rgb(229,231,235)";
-      setTimeout(() => {
-        if (suggestions) suggestions.style.display = "none";
-      }, 200);
-    });
 
     const suggestions = document.createElement("ul");
     suggestions.style.cssText = `
@@ -67,12 +56,18 @@
       z-index: 9999;
     `;
 
+    input.addEventListener("focus", () => {
+      input.style.width = "180px";
+      input.style.borderColor = "rgb(9,109,217)";
+    });
+    input.addEventListener("blur", () => {
+      input.style.width = "120px";
+      input.style.borderColor = "rgb(229,231,235)";
+      setTimeout(() => { suggestions.style.display = "none"; }, 200);
+    });
     input.addEventListener("input", (e) => {
       const q = e.target.value.trim().toLowerCase();
-      if (!q) {
-        suggestions.style.display = "none";
-        return;
-      }
+      if (!q) { suggestions.style.display = "none"; return; }
       const matches = PAGES.filter((p) => p.title.toLowerCase().includes(q));
       if (matches.length === 0) {
         suggestions.innerHTML = '<li style="padding:8px 12px;font-size:13px;color:#999;">无结果</li>';
@@ -87,17 +82,26 @@
     wrapper.appendChild(input);
     wrapper.appendChild(suggestions);
 
-    // 插入到 navbar-end 的第一个子元素之前
     if (navbarEnd.firstChild) {
       navbarEnd.insertBefore(wrapper, navbarEnd.firstChild);
     } else {
       navbarEnd.appendChild(wrapper);
     }
+    return true;
+  }
+
+  function init() {
+    if (createSearchBox()) return;
+    const observer = new MutationObserver(() => {
+      if (createSearchBox()) observer.disconnect();
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
+    setTimeout(() => observer.disconnect(), 5000);
   }
 
   if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", createSearchBox);
+    document.addEventListener("DOMContentLoaded", init);
   } else {
-    createSearchBox();
+    init();
   }
 })();
