@@ -1,6 +1,7 @@
 import { defineUserConfig } from "vuepress";
 import { viteBundler } from "@vuepress/bundler-vite";
 import { hopeTheme } from "vuepress-theme-hope";
+import { searchPlugin } from "@vuepress/plugin-search";
 
 export default defineUserConfig({
   bundler: viteBundler(),
@@ -65,4 +66,16 @@ export default defineUserConfig({
     iconAssets: "fontawesome",
     toc: false,
   }),
+
+  plugins: [
+    searchPlugin({
+      locales: {
+        "/": {
+          placeholder: "搜索",
+        },
+      },
+      maxSuggestions: 10,
+      hotKeys: ["s", "/"],
+    }),
+  ],
 });

@@ -734,3 +734,42 @@ html {
   gap: 0.5rem;
   margin-top: 0.5rem;
 }
+
+/* ===== 搜索框样式 ===== */
+.search-box {
+  margin-left: 0.5rem;
+}
+
+.search-box input {
+  border: 1px solid rgb(229, 231, 235);
+  border-radius: 20px;
+  padding: 0.4rem 0.9rem 0.4rem 2rem;
+  font-size: 0.85rem;
+  background: rgba(255, 255, 255, 0.8);
+  color: rgb(75, 85, 99);
+  transition: all 0.2s;
+  width: 140px;
+}
+
+.search-box input:focus {
+  outline: none;
+  border-color: rgb(9, 109, 217);
+  width: 180px;
+  background: white;
+}
+
+.search-box .suggestions {
+  border: 1px solid rgb(229, 231, 235);
+  border-radius: 8px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+  background: white;
+  top: calc(100% + 4px);
+}
+
+.search-box .suggestions a {
+  color: rgb(17, 24, 39) !important;
+}
+
+.search-box .suggestion-focused {
+  background: rgb(243, 244, 246);
+}
