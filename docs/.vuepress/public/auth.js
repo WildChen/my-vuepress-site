@@ -69,6 +69,20 @@
     const ul = document.createElement("ul");
     ul.className = "vp-dropdown";
 
+    const liAdmin = document.createElement("li");
+    liAdmin.className = "vp-dropdown-item";
+    const adminA = document.createElement("a");
+    adminA.href = "/admin.html";
+    adminA.setAttribute("aria-label", "管理后台");
+    const adminIcon = document.createElement("span");
+    adminIcon.className = "font-icon icon fa-fw fa-sm fas fa-chart-line";
+    const adminText = document.createElement("span");
+    adminText.textContent = " 管理后台";
+    adminA.appendChild(adminIcon);
+    adminA.appendChild(adminText);
+    liAdmin.appendChild(adminA);
+    ul.appendChild(liAdmin);
+
     const li = document.createElement("li");
     li.className = "vp-dropdown-item";
 
