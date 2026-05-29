@@ -92,14 +92,20 @@
     return true;
   }
 
-  // 使用 MutationObserver 等待导航栏渲染完成后插入搜索框
+  // 持续监听导航栏，Vue 每次重绘后自动重新插入搜索框
   function initSearchBox() {
-    if (createSearchBox()) return;
+    createSearchBox();
     const observer = new MutationObserver(() => {
-      if (createSearchBox()) observer.disconnect();
+      createSearchBox();
     });
     observer.observe(document.body, { childList: true, subtree: true });
-    setTimeout(() => observer.disconnect(), 5000);
+
+    // SPA 路由切换后重新插入（拦截 pushState/replaceState）
+    window.addEventListener("popstate", () => createSearchBox());
+    const originalPush = history.pushState;
+    const originalReplace = history.replaceState;
+    history.pushState = function () { originalPush.apply(this, arguments); createSearchBox(); };
+    history.replaceState = function () { originalReplace.apply(this, arguments); createSearchBox(); };
   }
 
   // 检查登录状态，已登录时将"登录"替换为用户下拉菜单
