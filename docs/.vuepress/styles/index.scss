@@ -22,9 +22,9 @@
   display: none !important;
 }
 
-/* 主内容区域 */
+/* 主内容区域 - 恢复顶部间距，避开固定导航栏 */
 .vp-page {
-  padding-top: 0 !important;
+  padding-top: 64px !important;
 }
 
 .theme-hope-content {
@@ -40,7 +40,7 @@
 
 /* ===== Hero 区域样式 ===== */
 .vp-hero-info-wrapper {
-  padding: 100px 0 60px !important;
+  padding: 36px 0 60px !important; /* 100px - 64px(vp-page padding) = 36px */
   background: linear-gradient(135deg, rgb(248, 251, 255), rgb(238, 245, 251) 48%, rgb(247, 239, 229)) !important;
   border-radius: 0;
   margin: 0;
