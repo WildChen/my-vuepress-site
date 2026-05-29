@@ -1,36 +1,49 @@
 (function () {
   /* ════════════════════════════════════════
-     搜索模块：异步加载索引，全文搜索
+     搜索模块：fallback + 全文索引扩展
      ════════════════════════════════════════ */
-  let SEARCH_INDEX = [];
-  let searchReady = false;
-  let searchInputValue = "";   // 保存输入值，Vue 重绘后恢复
-  let searchFocused = false;   // 保存焦点状态
 
-  // 加载搜索索引
+  // Fallback 页面列表：确保即使索引加载失败也能搜索
+  const FALLBACK_PAGES = [
+    { title: "首页", url: "/" },
+    { title: "产品", url: "/products.html" },
+    { title: "会员", url: "/membership.html" },
+    { title: "全部文章", url: "/article.html" },
+    { title: "长文（公众号）", url: "/blog/longform.html" },
+    { title: "短帖（X）", url: "/blog/x.html" },
+    { title: "专栏", url: "/series.html" },
+    { title: "开源项目", url: "/oss.html" },
+    { title: "关于", url: "/about.html" },
+    { title: "管理后台", url: "/admin.html" },
+  ];
+
+  // 当前搜索索引（先使用 fallback，加载成功后替换为全文索引）
+  let SEARCH_INDEX = FALLBACK_PAGES.map((p) => ({ ...p, text: "" }));
+  let usingFullIndex = false;
+
+  // 加载全文搜索索引（异步，失败不影响现有功能）
   async function loadSearchIndex() {
     try {
       const res = await fetch("/search-index.json?v=1");
-      if (res.ok) {
-        SEARCH_INDEX = await res.json();
-        searchReady = true;
-        // 索引加载完成后，更新已有搜索框的 placeholder
-        updateSearchPlaceholder();
+      if (!res.ok) {
+        console.warn("[search] index fetch failed:", res.status);
+        return;
+      }
+      const data = await res.json();
+      if (Array.isArray(data) && data.length > 0) {
+        SEARCH_INDEX = data;
+        usingFullIndex = true;
+        console.log("[search] full index loaded,", data.length, "pages");
       }
     } catch (e) {
-      console.error("[search] index load failed:", e);
+      console.warn("[search] index load error:", e.message);
     }
   }
 
-  function updateSearchPlaceholder() {
-    const input = document.querySelector(".custom-search-box input");
-    if (input) input.placeholder = "搜索...";
-  }
-
-  // 全文搜索：标题 + 正文
+  // 搜索：标题 + 正文
   function doSearch(query) {
     const q = query.trim().toLowerCase();
-    if (!q || !searchReady) return [];
+    if (!q) return [];
     return SEARCH_INDEX.filter((p) => {
       const title = (p.title || "").toLowerCase();
       const text = (p.text || "").toLowerCase();
@@ -67,6 +80,10 @@
     return highlight(snippet, query);
   }
 
+  // 保存输入状态，Vue 重绘后恢复
+  let savedInputValue = "";
+  let savedFocus = false;
+
   // 创建/恢复搜索框
   function createSearchBox() {
     const navbarEnd = document.querySelector(".vp-navbar-end");
@@ -74,11 +91,7 @@
 
     const existing = navbarEnd.querySelector(".custom-search-box");
     if (existing) {
-      // 只更新 placeholder，不动已有元素（避免打断用户输入）
-      const input = existing.querySelector("input");
-      if (input && searchReady && input.placeholder !== "搜索...") {
-        input.placeholder = "搜索...";
-      }
+      // 已有搜索框，不动它（避免打断用户输入）
       return true;
     }
 
@@ -88,7 +101,7 @@
 
     const input = document.createElement("input");
     input.type = "search";
-    input.placeholder = searchReady ? "搜索..." : "加载中...";
+    input.placeholder = "搜索";
     input.autocomplete = "off";
     input.style.cssText = `
       width: 120px;
@@ -124,24 +137,28 @@
     `;
 
     // 恢复之前保存的状态
-    if (searchInputValue) input.value = searchInputValue;
+    if (savedInputValue) {
+      input.value = savedInputValue;
+      // 如果有保存的值，自动显示建议
+      renderSuggestions(savedInputValue, suggestions);
+    }
 
     input.addEventListener("focus", () => {
       input.style.width = "200px";
       input.style.borderColor = "rgb(9,109,217)";
-      searchFocused = true;
+      savedFocus = true;
       if (input.value.trim()) renderSuggestions(input.value, suggestions);
     });
 
     input.addEventListener("blur", () => {
       input.style.width = "120px";
       input.style.borderColor = "rgb(229,231,235)";
-      searchFocused = false;
+      savedFocus = false;
       setTimeout(() => { suggestions.style.display = "none"; }, 180);
     });
 
     input.addEventListener("input", (e) => {
-      searchInputValue = e.target.value;
+      savedInputValue = e.target.value;
       const q = e.target.value.trim();
       if (!q) {
         suggestions.style.display = "none";
@@ -150,7 +167,7 @@
       renderSuggestions(q, suggestions);
     });
 
-    // 键盘导航：ESC 关闭，Enter 跳转到第一个结果
+    // 键盘：ESC 关闭，Enter 跳转第一个
     input.addEventListener("keydown", (e) => {
       if (e.key === "Escape") {
         suggestions.style.display = "none";
@@ -174,11 +191,7 @@
       navbarEnd.appendChild(wrapper);
     }
 
-    // 如果之前是聚焦状态，恢复焦点
-    if (searchFocused) {
-      input.focus();
-    }
-
+    if (savedFocus) input.focus();
     return true;
   }
 
@@ -196,12 +209,9 @@
         </li>`;
       }).join("");
 
-      // 事件委托处理点击
       suggestionsEl.onclick = (e) => {
         const li = e.target.closest("li[data-url]");
-        if (li) {
-          window.location.href = li.dataset.url;
-        }
+        if (li) window.location.href = li.dataset.url;
       };
     }
     suggestionsEl.style.display = "block";
@@ -223,15 +233,13 @@
   }
 
   /* ════════════════════════════════════════
-     认证模块：检查登录状态，替换"登录"为下拉菜单
+     认证模块
      ════════════════════════════════════════ */
   async function checkAuth() {
     try {
       const res = await fetch("/api/verify", { credentials: "same-origin" });
       const data = await res.json();
-      if (data.authenticated) {
-        replaceLoginWithUser(data.username);
-      }
+      if (data.authenticated) replaceLoginWithUser(data.username);
     } catch (e) {
       // API 不可用，保持原样
     }

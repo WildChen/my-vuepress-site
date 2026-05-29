@@ -38,13 +38,13 @@ function parseFrontmatter(content: string): Record<string, string> {
 }
 
 function extractH1(content: string): string | undefined {
-  const body = content.replace(/^---\r?\n[\s\S]*?\r?\n---\s*/, "");
+  const body = content.replace(/^---[\s\S]*?---\s*/, "");
   const m = body.match(/^#\s+(.+)$/m);
   return m?.[1]?.trim();
 }
 
 function extractText(content: string): string {
-  let text = content.replace(/^---\r?\n[\s\S]*?\r?\n---\s*/, "");
+  let text = content.replace(/^---[\s\S]*?---\s*/, "");
   text = text
     .replace(/!\[.*?\]\(.*?\)/g, "")
     .replace(/\[([^\]]+?)\]\([^)]+?\)/g, "$1")
@@ -102,7 +102,7 @@ export default defineUserConfig({
     ["link", { rel: "stylesheet", href: "//at.alicdn.com/t/font_3180624_7cy10l7jqqh.css" }],
     ["link", { rel: "icon", type: "image/png", href: "/favicon.png" }],
     ["link", { rel: "apple-touch-icon", href: "/apple-touch-icon.png" }],
-    ["script", { src: "/auth.js?v=6", defer: true }],
+    ["script", { src: "/auth.js?v=7", defer: true }],
     ["script", { src: "/comments.js", defer: true }],
   ],
 
