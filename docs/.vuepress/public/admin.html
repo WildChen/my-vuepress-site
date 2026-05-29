@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>管理后台 | Language shapes our world</title>
+  <link rel="icon" href="/favicon.png">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: linear-gradient(135deg, rgb(248, 251, 255), rgb(238, 245, 251) 48%, rgb(247, 239, 229));
+      min-height: 100vh;
+      padding: 2rem 1rem;
+    }
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 2rem;
+    }
+    .header h1 {
+      font-size: 1.5rem;
+      color: rgb(17, 24, 39);
+      font-weight: 600;
+    }
+    .header-actions a, .header-actions button {
+      font-size: 0.9rem;
+      color: rgb(9, 109, 217);
+      text-decoration: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      margin-left: 1rem;
+    }
+    .header-actions a:hover, .header-actions button:hover {
+      text-decoration: underline;
+    }
+
+    /* 统计卡片 */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    .stat-card {
+      background: white;
+      border-radius: 12px;
+      padding: 1.5rem;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+      text-align: center;
+    }
+    .stat-value {
+      font-size: 2rem;
+      font-weight: 700;
+      color: rgb(9, 109, 217);
+    }
+    .stat-label {
+      font-size: 0.85rem;
+      color: rgb(107, 114, 128);
+      margin-top: 0.25rem;
+    }
+
+    /* 内容卡片 */
+    .card {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+      margin-bottom: 1.5rem;
+      overflow: hidden;
+    }
+    .card-header {
+      padding: 1rem 1.5rem;
+      border-bottom: 1px solid rgb(243, 244, 246);
+      font-weight: 600;
+      color: rgb(17, 24, 39);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .card-body {
+      padding: 0;
+    }
+
+    /* 表格 */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    th, td {
+      padding: 0.75rem 1.5rem;
+      text-align: left;
+      font-size: 0.9rem;
+    }
+    th {
+      background: rgb(249, 250, 251);
+      color: rgb(75, 85, 99);
+      font-weight: 500;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    tr {
+      border-bottom: 1px solid rgb(243, 244, 246);
+    }
+    tr:last-child {
+      border-bottom: none;
+    }
+    td {
+      color: rgb(75, 85, 99);
+    }
+
+    /* 评论列表 */
+    .page-group {
+      border-bottom: 1px solid rgb(243, 244, 246);
+    }
+    .page-group:last-child {
+      border-bottom: none;
+    }
+    .page-title {
+      padding: 0.75rem 1.5rem;
+      background: rgb(249, 250, 251);
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: rgb(107, 114, 128);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .page-title a {
+      color: rgb(9, 109, 217);
+      text-decoration: none;
+    }
+    .page-title a:hover {
+      text-decoration: underline;
+    }
+    .comment-row {
+      padding: 0.75rem 1.5rem;
+      border-bottom: 1px solid rgb(243, 244, 246);
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+    .comment-row:last-child {
+      border-bottom: none;
+    }
+    .comment-info {
+      flex: 1;
+    }
+    .comment-user {
+      font-weight: 600;
+      color: rgb(17, 24, 39);
+      font-size: 0.85rem;
+    }
+    .comment-time {
+      color: rgb(156, 163, 175);
+      font-size: 0.8rem;
+      margin-left: 0.5rem;
+    }
+    .comment-text {
+      color: rgb(75, 85, 99);
+      font-size: 0.9rem;
+      margin-top: 0.25rem;
+      word-break: break-word;
+    }
+    .comment-text img {
+      max-width: 120px;
+      max-height: 80px;
+      border-radius: 4px;
+      margin-top: 0.25rem;
+    }
+    .delete-btn {
+      padding: 0.35rem 0.75rem;
+      background: rgb(254, 242, 242);
+      color: rgb(185, 28, 28);
+      border: 1px solid rgb(252, 165, 165);
+      border-radius: 6px;
+      font-size: 0.8rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      flex-shrink: 0;
+    }
+    .delete-btn:hover {
+      background: rgb(252, 165, 165);
+      color: white;
+    }
+
+    .replies-list {
+      margin-top: 0.5rem;
+      padding-left: 1rem;
+      border-left: 2px solid rgb(229, 231, 235);
+    }
+    .reply-row {
+      padding: 0.5rem 0;
+      border-bottom: 1px solid rgb(243, 244, 246);
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 0.75rem;
+    }
+    .reply-row:last-child {
+      border-bottom: none;
+    }
+
+    .empty-state {
+      padding: 2rem;
+      text-align: center;
+      color: rgb(156, 163, 175);
+      font-size: 0.9rem;
+    }
+
+    .loading {
+      padding: 2rem;
+      text-align: center;
+      color: rgb(156, 163, 175);
+    }
+
+    @media (max-width: 768px) {
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+      th, td {
+        padding: 0.6rem 1rem;
+      }
+      .comment-row {
+        padding: 0.6rem 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>📊 管理后台</h1>
+      <div class="header-actions">
+        <a href="/">← 返回首页</a>
+        <button id="logoutBtn">退出登录</button>
+      </div>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-value" id="statUsers">-</div>
+        <div class="stat-label">注册用户</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="statComments">-</div>
+        <div class="stat-label">评论总数</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="statPages">-</div>
+        <div class="stat-label">评论页面</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">👤 用户列表</div>
+      <div class="card-body" id="usersContainer">
+        <div class="loading">加载中...</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">💬 评论管理</div>
+      <div class="card-body" id="commentsContainer">
+        <div class="loading">加载中...</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    async function checkAuth() {
+      try {
+        const res = await fetch("/api/verify", { credentials: "same-origin" });
+        const data = await res.json();
+        if (!data.authenticated) {
+          window.location.href = "/login.html?redirect=/admin.html";
+          return null;
+        }
+        return data.username;
+      } catch (e) {
+        window.location.href = "/login.html?redirect=/admin.html";
+        return null;
+      }
+    }
+
+    function formatDate(iso) {
+      const d = new Date(iso);
+      return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")} ${String(d.getHours()).padStart(2, "0")}:${String(d.getMinutes()).padStart(2, "0")}`;
+    }
+
+    async function loadUsers() {
+      try {
+        const res = await fetch("/api/admin/users", { credentials: "same-origin" });
+        const data = await res.json();
+        const container = document.getElementById("usersContainer");
+
+        if (!data.users || data.users.length === 0) {
+          container.innerHTML = '<div class="empty-state">暂无用户</div>';
+          return;
+        }
+
+        let html = '<table><thead><tr><th>用户名</th><th>注册时间</th></tr></thead><tbody>';
+        data.users.forEach((u) => {
+          html += `<tr><td>${u.username}</td><td>${formatDate(u.createdAt)}</td></tr>`;
+        });
+        html += '</tbody></table>';
+        container.innerHTML = html;
+
+        document.getElementById("statUsers").textContent = data.users.length;
+      } catch (e) {
+        document.getElementById("usersContainer").innerHTML = '<div class="empty-state">加载失败</div>';
+      }
+    }
+
+    function stripImages(text) {
+      return text.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '[图片]').replace(/\n/g, ' ');
+    }
+
+    async function loadComments() {
+      try {
+        const res = await fetch("/api/admin/comments", { credentials: "same-origin" });
+        const data = await res.json();
+        const container = document.getElementById("commentsContainer");
+
+        if (!data.pages || data.pages.length === 0) {
+          container.innerHTML = '<div class="empty-state">暂无评论</div>';
+          return;
+        }
+
+        let totalComments = 0;
+        let html = '';
+
+        data.pages.forEach((p) => {
+          totalComments += p.comments.length;
+          html += `<div class="page-group">`;
+          html += `<div class="page-title"><span>${p.page}</span><a href="${p.page}" target="_blank">查看 →</a></div>`;
+
+          p.comments.forEach((c) => {
+            html += `<div class="comment-row" data-page="${p.page}" data-id="${c.id}">`;
+            html += `<div class="comment-info">`;
+            html += `<span class="comment-user">${c.username}</span>`;
+            html += `<span class="comment-time">${formatDate(c.createdAt)}</span>`;
+            html += `<div class="comment-text">${stripImages(c.content)}</div>`;
+
+            if (c.replies && c.replies.length > 0) {
+              html += `<div class="replies-list">`;
+              c.replies.forEach((r) => {
+                html += `<div class="reply-row" data-reply-id="${r.id}">`;
+                html += `<div style="flex:1">`;
+                html += `<span class="comment-user">${r.username}</span>`;
+                html += `<span class="comment-time">${formatDate(r.createdAt)}</span>`;
+                html += `<div class="comment-text">${stripImages(r.content)}</div>`;
+                html += `</div>`;
+                html += `<button class="delete-btn" onclick="deleteReply('${p.page}', '${c.id}', '${r.id}')">删除</button>`;
+                html += `</div>`;
+              });
+              html += `</div>`;
+            }
+
+            html += `</div>`;
+            html += `<button class="delete-btn" onclick="deleteComment('${p.page}', '${c.id}')">删除</button>`;
+            html += `</div>`;
+          });
+
+          html += `</div>`;
+        });
+
+        container.innerHTML = html;
+        document.getElementById("statComments").textContent = totalComments;
+        document.getElementById("statPages").textContent = data.pages.length;
+      } catch (e) {
+        document.getElementById("commentsContainer").innerHTML = '<div class="empty-state">加载失败</div>';
+      }
+    }
+
+    async function deleteComment(page, commentId) {
+      if (!confirm("确定删除这条评论？")) return;
+      try {
+        const res = await fetch("/api/admin/delete-comment", {
+          method: "POST",
+          credentials: "same-origin",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ page, commentId }),
+        });
+        if (res.ok) {
+          await loadComments();
+        } else {
+          alert("删除失败");
+        }
+      } catch (e) {
+        alert("网络错误");
+      }
+    }
+
+    async function deleteReply(page, commentId, replyId) {
+      if (!confirm("确定删除这条回复？")) return;
+      try {
+        const res = await fetch("/api/admin/delete-comment", {
+          method: "POST",
+          credentials: "same-origin",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ page, commentId, replyId }),
+        });
+        if (res.ok) {
+          await loadComments();
+        } else {
+          alert("删除失败");
+        }
+      } catch (e) {
+        alert("网络错误");
+      }
+    }
+
+    document.getElementById("logoutBtn").addEventListener("click", async () => {
+      try {
+        await fetch("/api/logout", { method: "POST", credentials: "same-origin" });
+        window.location.href = "/";
+      } catch (e) {
+        console.error("Logout failed:", e);
+      }
+    });
+
+    async function init() {
+      const user = await checkAuth();
+      if (!user) return;
+      await loadUsers();
+      await loadComments();
+    }
+
+    init();
+  </script>
+</body>
+</html>
