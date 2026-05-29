@@ -299,6 +299,7 @@
     liAdmin.className = "vp-dropdown-item";
     const adminA = document.createElement("a");
     adminA.href = "/admin.html";
+    adminA.target = "_self";
     adminA.setAttribute("aria-label", "管理后台");
     const adminIcon = document.createElement("span");
     adminIcon.className = "font-icon icon fa-fw fa-sm fas fa-cog";

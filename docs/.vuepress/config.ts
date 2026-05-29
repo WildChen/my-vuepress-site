@@ -102,7 +102,7 @@ export default defineUserConfig({
     ["link", { rel: "stylesheet", href: "//at.alicdn.com/t/font_3180624_7cy10l7jqqh.css" }],
     ["link", { rel: "icon", type: "image/png", href: "/favicon.png" }],
     ["link", { rel: "apple-touch-icon", href: "/apple-touch-icon.png" }],
-    ["script", { src: "/auth.js?v=7", defer: true }],
+    ["script", { src: "/auth.js?v=8", defer: true }],
     ["script", { src: "/comments.js", defer: true }],
   ],
 
@@ -123,7 +123,7 @@ export default defineUserConfig({
       { text: "首页", link: "/", icon: "home" },
       { text: "产品", link: "/products.html", icon: "star" },
       { text: "会员", link: "/membership.html", icon: "crown" },
-      { text: "登录", link: "/login.html", icon: "right-to-bracket" },
+      { text: "登录", link: "/login.html", icon: "right-to-bracket", target: "_self" },
       {
         text: "Blog",
         icon: "blog",
@@ -136,7 +136,7 @@ export default defineUserConfig({
       { text: "专栏", link: "/series.html", icon: "layer-group" },
       { text: "开源项目", link: "/oss.html", icon: "code-branch" },
       { text: "关于", link: "/about.html", icon: "circle-user" },
-      { text: "控制台", link: "/admin.html", icon: "cog" },
+      { text: "控制台", link: "/admin.html", icon: "cog", target: "_self" },
     ],
 
     sidebar: false,
