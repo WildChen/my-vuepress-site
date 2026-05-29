@@ -742,21 +742,23 @@ html {
 }
 
 .search-box input {
-  border: 1px solid rgb(229, 231, 235);
-  border-radius: 20px;
-  padding: 0.4rem 0.9rem 0.4rem 2rem;
-  font-size: 0.85rem;
-  background: rgba(255, 255, 255, 0.8);
-  color: rgb(75, 85, 99);
+  border: 1px solid rgb(229, 231, 235) !important;
+  border-radius: 20px !important;
+  padding: 0.4rem 0.9rem 0.4rem 2rem !important;
+  font-size: 0.85rem !important;
+  background: rgba(255, 255, 255, 0.8) !important;
+  color: rgb(75, 85, 99) !important;
   transition: all 0.2s;
-  width: 140px;
+  width: 140px !important;
+  cursor: text !important;
+  position: static !important;
 }
 
 .search-box input:focus {
   outline: none;
-  border-color: rgb(9, 109, 217);
-  width: 180px;
-  background: white;
+  border-color: rgb(9, 109, 217) !important;
+  width: 180px !important;
+  background: white !important;
 }
 
 .search-box .suggestions {

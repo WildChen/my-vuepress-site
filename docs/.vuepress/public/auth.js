@@ -75,7 +75,7 @@
     adminA.href = "/admin.html";
     adminA.setAttribute("aria-label", "管理后台");
     const adminIcon = document.createElement("span");
-    adminIcon.className = "font-icon icon fa-fw fa-sm fas fa-chart-line";
+    adminIcon.className = "font-icon icon fa-fw fa-sm fas fa-cog";
     const adminText = document.createElement("span");
     adminText.textContent = " 管理后台";
     adminA.appendChild(adminIcon);
