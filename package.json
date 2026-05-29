@@ -15,7 +15,6 @@
   "license": "MIT",
   "dependencies": {
     "@vuepress/bundler-vite": "^2.0.0-rc.14",
-    "@vuepress/plugin-search": "^2.0.0-rc.14",
     "vuepress": "^2.0.0-rc.14",
     "vuepress-theme-hope": "^2.0.0-rc.52"
   }

@@ -1,0 +1,103 @@
+(function () {
+  const PAGES = [
+    { title: "首页", path: "/" },
+    { title: "产品", path: "/products.html" },
+    { title: "会员", path: "/membership.html" },
+    { title: "文章", path: "/article.html" },
+    { title: "长文（公众号）", path: "/blog/longform.html" },
+    { title: "短帖（X）", path: "/blog/x.html" },
+    { title: "专栏", path: "/series.html" },
+    { title: "开源项目", path: "/oss.html" },
+    { title: "关于", path: "/about.html" },
+  ];
+
+  function createSearchBox() {
+    const navbarEnd = document.querySelector(".vp-navbar-end");
+    if (!navbarEnd) return;
+
+    const wrapper = document.createElement("div");
+    wrapper.className = "custom-search-box";
+    wrapper.style.cssText = "position:relative;display:inline-flex;align-items:center;margin-right:0.75rem;";
+
+    const input = document.createElement("input");
+    input.type = "text";
+    input.placeholder = "搜索...";
+    input.style.cssText = `
+      width: 120px;
+      height: 32px;
+      padding: 0 12px 0 32px;
+      border: 1px solid rgb(229,231,235);
+      border-radius: 16px;
+      font-size: 13px;
+      background: rgba(255,255,255,0.9) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23999' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.3-4.3'/%3E%3C/svg%3E") 10px center no-repeat;
+      background-size: 14px;
+      outline: none;
+      transition: all 0.2s;
+      color: rgb(75,85,99);
+    `;
+
+    input.addEventListener("focus", () => {
+      input.style.width = "180px";
+      input.style.borderColor = "rgb(9,109,217)";
+    });
+    input.addEventListener("blur", () => {
+      input.style.width = "120px";
+      input.style.borderColor = "rgb(229,231,235)";
+      setTimeout(() => {
+        if (suggestions) suggestions.style.display = "none";
+      }, 200);
+    });
+
+    const suggestions = document.createElement("ul");
+    suggestions.style.cssText = `
+      position: absolute;
+      top: calc(100% + 6px);
+      right: 0;
+      width: 220px;
+      max-height: 300px;
+      overflow-y: auto;
+      background: white;
+      border: 1px solid rgb(229,231,235);
+      border-radius: 8px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+      list-style: none;
+      padding: 4px 0;
+      margin: 0;
+      display: none;
+      z-index: 9999;
+    `;
+
+    input.addEventListener("input", (e) => {
+      const q = e.target.value.trim().toLowerCase();
+      if (!q) {
+        suggestions.style.display = "none";
+        return;
+      }
+      const matches = PAGES.filter((p) => p.title.toLowerCase().includes(q));
+      if (matches.length === 0) {
+        suggestions.innerHTML = '<li style="padding:8px 12px;font-size:13px;color:#999;">无结果</li>';
+      } else {
+        suggestions.innerHTML = matches.map((p) =>
+          `<li style="padding:8px 12px;cursor:pointer;font-size:13px;color:#111827;transition:background 0.15s;" onmouseover="this.style.background='#f3f4f6'" onmouseout="this.style.background='white'" onclick="window.location.href='${p.path}'">${p.title}</li>`
+        ).join("");
+      }
+      suggestions.style.display = "block";
+    });
+
+    wrapper.appendChild(input);
+    wrapper.appendChild(suggestions);
+
+    // 插入到 navbar-end 的第一个子元素之前
+    if (navbarEnd.firstChild) {
+      navbarEnd.insertBefore(wrapper, navbarEnd.firstChild);
+    } else {
+      navbarEnd.appendChild(wrapper);
+    }
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", createSearchBox);
+  } else {
+    createSearchBox();
+  }
+})();

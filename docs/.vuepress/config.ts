@@ -1,7 +1,6 @@
 import { defineUserConfig } from "vuepress";
 import { viteBundler } from "@vuepress/bundler-vite";
 import { hopeTheme } from "vuepress-theme-hope";
-import { searchPlugin } from "@vuepress/plugin-search";
 
 export default defineUserConfig({
   bundler: viteBundler(),
@@ -18,6 +17,7 @@ export default defineUserConfig({
     ["link", { rel: "apple-touch-icon", href: "/apple-touch-icon.png" }],
     ["script", { src: "/auth.js?v=3", defer: true }],
     ["script", { src: "/comments.js", defer: true }],
+    ["script", { src: "/search.js", defer: true }],
   ],
 
   theme: hopeTheme({
@@ -50,6 +50,7 @@ export default defineUserConfig({
       { text: "专栏", link: "/series.html", icon: "layer-group" },
       { text: "开源项目", link: "/oss.html", icon: "code-branch" },
       { text: "关于", link: "/about.html", icon: "circle-user" },
+      { text: "控制台", link: "/admin.html", icon: "cog" },
     ],
 
     sidebar: false,
@@ -66,16 +67,4 @@ export default defineUserConfig({
     iconAssets: "fontawesome",
     toc: false,
   }),
-
-  plugins: [
-    searchPlugin({
-      locales: {
-        "/": {
-          placeholder: "搜索",
-        },
-      },
-      maxSuggestions: 10,
-      hotKeys: ["s", "/"],
-    }),
-  ],
 });

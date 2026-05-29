@@ -735,41 +735,6 @@ html {
   margin-top: 0.5rem;
 }
 
-/* ===== 搜索框样式 ===== */
-.search-box {
-  display: inline-flex !important;
-  margin-left: 0.5rem;
-}
-
-.search-box input {
-  border: 1px solid rgb(229, 231, 235) !important;
-  border-radius: 20px !important;
-  padding: 0.4rem 0.9rem 0.4rem 2rem !important;
-  font-size: 0.85rem !important;
-  background: rgba(255, 255, 255, 0.8) !important;
-  color: rgb(75, 85, 99) !important;
-  transition: all 0.2s;
-  width: 140px !important;
-  cursor: text !important;
-  position: static !important;
-}
-
-.search-box input:focus {
-  outline: none;
-  border-color: rgb(9, 109, 217) !important;
-  width: 180px !important;
-  background: white !important;
-}
-
-.search-box .suggestions {
-  border: 1px solid rgb(229, 231, 235);
-  border-radius: 8px;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
-  background: white;
-  top: calc(100% + 4px);
-}
-
-.search-box .suggestions a {
   color: rgb(17, 24, 39) !important;
 }
 
