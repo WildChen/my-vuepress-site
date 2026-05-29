@@ -199,7 +199,9 @@
 
       const likeBtn = document.createElement("button");
       likeBtn.className = "comment-action-btn" + (isLiked ? " liked" : "");
-      likeBtn.innerHTML = `<span class="font-icon icon fa-fw fa-sm fas fa-heart comment-heart ${isLiked ? 'liked' : ''}"></span><span class="comment-like-count">${likes.length}</span>`;
+      const heartIcon = `<span class="font-icon icon fa-fw fa-sm fas fa-heart comment-heart ${isLiked ? 'liked' : ''}"></span>`;
+      const countText = likes.length > 0 ? `<span class="comment-like-count">${likes.length}</span>` : "";
+      likeBtn.innerHTML = heartIcon + countText;
       likeBtn.addEventListener("click", async () => {
         if (!CURRENT_USER) {
           window.location.href = "/login.html";
