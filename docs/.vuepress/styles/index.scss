@@ -211,17 +211,34 @@
 }
 
 /* ===== Section 通用样式 ===== */
-.theme-hope-content h2 {
-  font-size: 1.5rem !important;
-  font-weight: 700 !important;
+.theme-hope-content h1 {
+  font-size: 2.5rem !important;
+  font-weight: 800 !important;
   color: rgb(17, 24, 39) !important;
-  margin-top: 4rem !important;
-  margin-bottom: 1rem !important;
-  line-height: 1.4 !important;
+  margin-top: 1rem !important;
+  margin-bottom: 1.5rem !important;
+  line-height: 1.3 !important;
+  text-align: left !important;
 }
 
-.theme-hope-content h2:first-of-type {
-  margin-top: 2rem !important;
+.theme-hope-content h2 {
+  font-size: 2rem !important;
+  font-weight: 700 !important;
+  color: rgb(17, 24, 39) !important;
+  margin-top: 3.5rem !important;
+  margin-bottom: 1.25rem !important;
+  line-height: 1.35 !important;
+  text-align: left !important;
+}
+
+.theme-hope-content h3 {
+  font-size: 1.5rem !important;
+  font-weight: 600 !important;
+  color: rgb(17, 24, 39) !important;
+  margin-top: 2.5rem !important;
+  margin-bottom: 1rem !important;
+  line-height: 1.4 !important;
+  text-align: left !important;
 }
 
 /* ===== Products 区域 ===== */
