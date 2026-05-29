@@ -641,7 +641,12 @@ html {
   color: #ff2442;
 }
 
-.comment-action-btn.liked .comment-like-icon {
+.comment-action-btn.liked {
+  background: #fff0f3;
+  border-color: #ff2442;
+}
+
+.comment-action-btn.liked .comment-heart {
   color: #ff2442;
 }
 
@@ -654,10 +659,14 @@ html {
   cursor: not-allowed;
 }
 
-.comment-like-icon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+.comment-heart {
+  color: rgb(200, 200, 200);
+  margin-right: 4px;
+  transition: color 0.2s;
+}
+
+.comment-reply-icon {
+  color: rgb(180, 180, 180);
   margin-right: 4px;
 }
 
